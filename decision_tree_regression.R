@@ -5,7 +5,8 @@ dataset = read.csv('Position_Salaries.csv')
 dataset = dataset[2:3]
 
 # Splitting the dataset into the Training set and Test set
-# # install.packages('caTools')
+# Not splitting here due to small dataset size (10 samples).
+# In production, use:
 # library(caTools)
 # set.seed(123)
 # split = sample.split(dataset$Salary, SplitRatio = 2/3)
@@ -13,11 +14,9 @@ dataset = dataset[2:3]
 # test_set = subset(dataset, split == FALSE)
 
 # Feature Scaling
-# training_set = scale(training_set)
-# test_set = scale(test_set)
+# Decision Trees do not require feature scaling.
 
 # Fitting Decision Tree Regression to the dataset
-# install.packages('rpart')
 library(rpart)
 regressor = rpart(formula = Salary ~ .,
                   data = dataset,
@@ -25,9 +24,9 @@ regressor = rpart(formula = Salary ~ .,
 
 # Predicting a new result with Decision Tree Regression
 y_pred = predict(regressor, data.frame(Level = 6.5))
+cat(sprintf("Predicted salary for level 6.5: %s\n", format(y_pred, big.mark = ",")))
 
 # Visualising the Decision Tree Regression results (higher resolution)
-# install.packages('ggplot2')
 library(ggplot2)
 x_grid = seq(min(dataset$Level), max(dataset$Level), 0.01)
 ggplot() +
